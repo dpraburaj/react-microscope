@@ -10,6 +10,6 @@ helpers, templates were copied almost verbatim with a few minor modifications.
 
 #Todo
 
-- Loading animations
+- ~~Loading animations~~
 - Post animations
 - Server-side rendering

@@ -231,10 +231,16 @@ PostPage = React.createClass({
 }) 
 
 PostsList = React.createClass({
-	mixins: [ReactMeteorData],
+	mixins: [ReactMeteorData, SpinnerMixin],
 
 	getInitialState() {
 		return { postLimit: parseInt(this.props.limit) || this.increment() }
+	},
+
+	spinnerWrapper(spinner) {
+		return <div className="posts page">
+			{spinner}
+		</div>
 	},
 
 	getMeteorData() {
@@ -244,8 +250,10 @@ PostsList = React.createClass({
 		else 
 			_.extend(modifier, { votes: -1, submitted: -1, _id: -1 })
 
-		let sub = Meteor.subscribe('posts', {sort: modifier, limit: this.state.postLimit })
+		let postsSubscription =  Meteor.subscribe('posts', 
+									{sort: modifier, limit: this.state.postLimit }) 
 		return {
+			subscriptions: [postsSubscription],
 			posts: Posts.find({}, {sort: modifier}).fetch()	
 		}
 	},
